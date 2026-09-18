@@ -111,7 +111,7 @@ Handles JWT authentication and authorization.
 Exception
 Provides centralized exception handling.
 
-Project Structure
+## Project Structure
 
 Ecommerce/
 │
@@ -183,7 +183,7 @@ Ecommerce/
             └── static/
                 └── index.html
 
-Security
+## Security
 
 The application uses Spring Security with JWT authentication.
 Authentication flow:
@@ -204,7 +204,7 @@ User role is loaded
  ↓
 Spring Security authorizes request
 
-Roles
+## Roles
 
 Operation	    ADMIN	CUSTOMER
 Register/Login	 ✅	     ✅
@@ -215,7 +215,7 @@ Cart Operations	 ✅	     ✅
 Place Orders	 ✅	     ✅
 View Own Orders	 ✅	     ✅
 
-API Endpoints
+## API Endpoints
 
 Authentication
 POST /api/auth/register
@@ -240,7 +240,7 @@ POST   /api/cart/checkout
 
 API paths may depend on the current controller mappings in the application.
 
-Database
+## Database
 
 The application uses MySQL with the following main entities:
 Users
@@ -253,7 +253,7 @@ CartItems
 Spring Data JPA and Hibernate are used for database interaction and ORM mapping.
 
 
-Configuration
+## Configuration
 
 Sensitive configuration values are not stored directly in the source code.
 
@@ -278,7 +278,7 @@ $env:JWT_SECRET="YOUR_LONG_RANDOM_SECRET"
 Never commit actual passwords or JWT secrets to GitHub.
 
 
-How to Run
+## How to Run
 
 Prerequisites
 Make sure you have installed:
@@ -308,7 +308,7 @@ The application runs on:
 http://localhost:8080
 
 
-Testing
+## Testing
 
 The application was tested using Postman and the web frontend.
 
@@ -333,9 +333,9 @@ Request validation
 Exception handling
 
 
-Key Implementation Highlights
-SKU-Based Inventory Handling
+## Key Implementation Highlights
 
+SKU-Based Inventory Handling
 When a product with an existing SKU is added, the system does not create another product record. Instead, the existing product's stock is increased.
 
 Existing SKU
@@ -357,7 +357,7 @@ DTO-Based API Design
 Request and response DTOs are used to avoid directly exposing entity objects through the API and to provide controlled request validation.
 
 
-Future Improvements
+## Future Improvements
 
 Potential future improvements include:
 Product search and filtering
@@ -371,7 +371,7 @@ Automated unit and integration test expansion
 Deployment to a cloud platform
 
 
-Author
+## Author
 
 Kushal C
 
