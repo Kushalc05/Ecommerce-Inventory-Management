@@ -1,43 +1,45 @@
 # E-Commerce & Inventory Management System
 
-A full-stack e-commerce and inventory management application built using Java and Spring Boot.
+A full-stack e-commerce and inventory management application built using **Java and Spring Boot**.
 
-The system provides product and inventory management, user authentication, role-based authorization, shopping cart functionality, checkout, and order management through RESTful APIs and a responsive web interface.
+The application provides product and inventory management, user authentication, role-based authorization, shopping cart functionality, checkout, and order management through RESTful APIs and a responsive web interface.
 
 ---
 
 ## 🚀 Features
 
-### Authentication & Authorization
+### 🔐 Authentication & Authorization
 
 - User registration and login
 - BCrypt password hashing
 - JWT-based authentication
 - Role-based authorization
 - ADMIN and CUSTOMER roles
-- Protected REST endpoints
+- Protected REST API endpoints
 
-### Product & Inventory Management
+### 📦 Product & Inventory Management
 
 - Add products
 - View available products
 - Delete products
 - SKU-based product identification
 - Duplicate SKU handling
-- Automatically increases stock when an existing SKU is added
-- Product price and stock validation
+- Automatically increase stock when an existing SKU is added
+- Product price validation
+- Stock validation
+- Prevent negative inventory
 
-### Shopping Cart
+### 🛒 Shopping Cart
 
 - Add products to cart
-- View cart
-- Update cart item quantity
-- Remove items from cart
+- View cart items
+- Update cart quantities
+- Remove cart items
 - Calculate item subtotals
 - Calculate cart total
 - Cart checkout
 
-### Orders
+### 📋 Order Management
 
 - Place single-product orders
 - Place multi-product orders
@@ -46,13 +48,14 @@ The system provides product and inventory management, user authentication, role-
 - Insufficient-stock validation
 - View customer's order history
 
-### Validation & Error Handling
+### ✅ Validation & Error Handling
 
-- Request validation using Jakarta Bean Validation
+- Jakarta Bean Validation
 - Centralized exception handling
-- Meaningful HTTP status codes
+- Appropriate HTTP status codes
 - Product-not-found handling
-- Invalid quantity and stock validation
+- Invalid quantity validation
+- Insufficient-stock handling
 - Duplicate username validation
 
 ---
@@ -85,52 +88,57 @@ The system provides product and inventory management, user authentication, role-
 - Visual Studio Code
 - Postman
 - MySQL Workbench
-- Git & GitHub
+- Git
+- GitHub
 
 ---
 
 ## 🏗️ Project Architecture
 
-The backend follows a layered architecture:
+The application follows a layered backend architecture:
 
 ```text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-Database
-Main Layers
-Controller
+┌──────────────────────┐
+│      Controller      │
+│  HTTP / REST APIs    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│       Service        │
+│   Business Logic     │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│      Repository      │
+│   Database Access    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│       MySQL          │
+│      Database        │
+└──────────────────────┘
+```
 
-Handles HTTP requests and API endpoints.
+### Main Layers
 
-Service
+| Layer | Responsibility |
+|---|---|
+| **Controller** | Handles HTTP requests and REST API endpoints |
+| **Service** | Contains application and business logic |
+| **Repository** | Handles database operations using Spring Data JPA |
+| **Model** | Contains JPA entities representing database tables |
+| **DTO** | Separates API request/response data from database entities |
+| **Security** | Handles JWT authentication and role-based authorization |
+| **Exception** | Provides centralized application error handling |
 
-Contains application and business logic.
+---
 
-Repository
+## 📁 Project Structure
 
-Handles database operations using Spring Data JPA.
-
-Model
-
-Contains JPA entities representing database tables.
-
-DTO
-
-Separates API request and response data from database entities.
-
-Security
-
-Handles JWT authentication and role-based authorization.
-
-Exception
-
-Provides centralized exception handling.
-
-📁 Project Structure
+```text
 Ecommerce/
 │
 ├── .gitignore
@@ -144,6 +152,7 @@ Ecommerce/
 │
 └── src/
     └── main/
+        │
         ├── java/
         │   └── com/example/ecommerce/
         │       │
@@ -201,208 +210,423 @@ Ecommerce/
         │
         └── resources/
             ├── application.properties
+            │
             └── static/
                 └── index.html
-🔐 Security
+```
 
-The application uses Spring Security with JWT authentication.
+---
 
-Authentication Flow
+## 🔐 Security Architecture
+
+The application uses **Spring Security and JWT** for authentication and authorization.
+
+### Authentication Flow
+
+```text
 User
- ↓
+  │
+  ▼
 Login
- ↓
-Credentials validated
- ↓
-JWT generated
- ↓
-Client sends JWT with requests
- ↓
-JwtAuthenticationFilter validates JWT
- ↓
-User role is loaded
- ↓
-Spring Security authorizes request
-Role-Based Authorization
-Operation	ADMIN	CUSTOMER
-Register / Login	✅	✅
-View Products	✅	✅
-Add Product	✅	❌
-Delete Product	✅	❌
-Cart Operations	✅	✅
-Place Orders	✅	✅
-View Own Orders	✅	✅
-📡 API Endpoints
-Authentication
-POST /api/auth/register
-POST /api/auth/login
-Products
-POST   /api/product
-GET    /api/products
-DELETE /api/product/{id}
-Orders
-POST /api/order
-GET  /api/orders/my
-Cart
-GET    /api/cart
-POST   /api/cart/add
-PUT    /api/cart/update/{cartItemId}
-DELETE /api/cart/remove/{cartItemId}
-POST   /api/cart/checkout
+  │
+  ▼
+Credentials Validation
+  │
+  ▼
+JWT Token Generated
+  │
+  ▼
+Client Stores Token
+  │
+  ▼
+Authorization: Bearer <token>
+  │
+  ▼
+JWT Authentication Filter
+  │
+  ▼
+Token Validation
+  │
+  ▼
+User Role Loaded
+  │
+  ▼
+Spring Security Authorization
+```
 
-Additional controller mappings may be available for multi-product order processing depending on the current implementation.
+### Role-Based Access
 
-🗄️ Database
+| Operation | ADMIN | CUSTOMER |
+|---|:---:|:---:|
+| Register / Login | ✅ | ✅ |
+| View Products | ✅ | ✅ |
+| Add Product | ✅ | ❌ |
+| Delete Product | ✅ | ❌ |
+| Cart Operations | ✅ | ✅ |
+| Place Orders | ✅ | ✅ |
+| View Own Orders | ✅ | ✅ |
 
-The application uses MySQL with the following main entities:
+---
 
+## 📡 REST API Endpoints
+
+### Authentication
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register a new customer |
+| `POST` | `/api/auth/login` | Authenticate user and generate JWT |
+
+### Products
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/product` | Add a product |
+| `GET` | `/api/products` | Retrieve products |
+| `DELETE` | `/api/product/{id}` | Delete a product |
+
+### Orders
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/order` | Place a single-product order |
+| `GET` | `/api/orders/my` | Retrieve logged-in customer's orders |
+
+### Cart
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/cart` | View cart |
+| `POST` | `/api/cart/add` | Add product to cart |
+| `PUT` | `/api/cart/update/{cartItemId}` | Update cart quantity |
+| `DELETE` | `/api/cart/remove/{cartItemId}` | Remove cart item |
+| `POST` | `/api/cart/checkout` | Checkout cart |
+
+---
+
+## 🗄️ Database Design
+
+The application uses **MySQL** with JPA/Hibernate for ORM.
+
+### Main Entities
+
+```text
 Users
-Products
-Orders
-OrderItems
-Cart
-CartItems
+ │
+ ├── Orders
+ │     │
+ │     └── OrderItems
+ │             │
+ │             └── Products
+ │
+ └── Cart
+       │
+       └── CartItems
+               │
+               └── Products
+```
 
-Spring Data JPA and Hibernate are used for database interaction and ORM mapping.
+### Main Database Tables
 
-⚙️ Configuration
+- `users`
+- `product`
+- `orders`
+- `order_items`
+- `cart`
+- `cart_item`
 
-Sensitive configuration values are not stored directly in the source code.
+Hibernate automatically manages the database schema based on the JPA entity definitions.
 
-The application uses environment variables for:
+---
 
+## 📦 SKU-Based Inventory Management
+
+The application uses **SKU (Stock Keeping Unit)** as the unique identifier for products.
+
+When an administrator attempts to add a product with an existing SKU:
+
+```text
+          Add Product
+               │
+               ▼
+          Check SKU
+               │
+        ┌──────┴──────┐
+        │             │
+     Exists        Not Found
+        │             │
+        ▼             ▼
+ Increase Stock    Create Product
+```
+
+This prevents duplicate product records for the same SKU and keeps inventory consolidated.
+
+---
+
+## 🛒 Cart & Checkout Flow
+
+```text
+Browse Products
+      │
+      ▼
+Add Product to Cart
+      │
+      ▼
+View Cart
+      │
+      ▼
+Update / Remove Items
+      │
+      ▼
+Checkout
+      │
+      ▼
+Validate Stock
+      │
+      ▼
+Calculate Total
+      │
+      ▼
+Create Order
+      │
+      ▼
+Deduct Inventory
+      │
+      ▼
+Checkout Successful
+```
+
+Order and inventory operations are handled transactionally to help maintain data consistency during checkout.
+
+---
+
+## ⚙️ Configuration
+
+Sensitive configuration values are kept outside the source code using environment variables.
+
+### Required Environment Variables
+
+```text
 DB_USERNAME
 DB_PASSWORD
 JWT_SECRET
+```
 
-The application.properties file uses references to these environment variables:
+The `application.properties` file references these variables:
 
+```properties
 spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}
 
 jwt.secret=${JWT_SECRET}
 jwt.expiration=3600000
-Windows PowerShell
+```
 
-Set the required variables before starting the application:
+### Windows PowerShell
 
+Set the variables before starting the application:
+
+```powershell
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
 $env:JWT_SECRET="YOUR_LONG_RANDOM_SECRET"
+```
 
-Never commit actual passwords or JWT secrets to GitHub.
+> Never commit actual database passwords or JWT secrets to GitHub.
 
-▶️ How to Run
-Prerequisites
+---
 
-Make sure you have installed:
+## ▶️ How to Run
 
-Java 25
-MySQL
-Git
-Maven (optional because the project includes Maven Wrapper)
-1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/Ecommerce-Inventory-Management.git
-2. Create the database
+### Prerequisites
 
-Open MySQL and run:
+Install the following:
 
+- Java 25
+- MySQL
+- Git
+- Maven *(optional — Maven Wrapper is included)*
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Kushalc05/Ecommerce-Inventory-Management.git
+```
+
+```bash
+cd Ecommerce-Inventory-Management
+```
+
+### 2. Create the Database
+
+Open MySQL and execute:
+
+```sql
 CREATE DATABASE ecommerce;
-3. Configure environment variables
+```
+
+### 3. Configure Environment Variables
 
 Windows PowerShell:
 
+```powershell
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
 $env:JWT_SECRET="YOUR_LONG_RANDOM_SECRET"
-4. Start the application
+```
+
+### 4. Start the Application
+
+Using Maven Wrapper:
+
+```powershell
 .\mvnw spring-boot:run
+```
 
-The application runs at:
+The application will start on:
 
+```text
 http://localhost:8080
-🧪 Testing
+```
 
-The application was tested using Postman and the web frontend.
+The frontend is served from the Spring Boot application.
 
-Authentication Testing
-User registration
-User login
-Duplicate username validation
-Invalid password handling
-JWT authentication
-Invalid JWT handling
-Role-based authorization
-Product Testing
-Product creation
-Product retrieval
-Product deletion
-SKU-based stock handling
-Product validation
-Cart & Order Testing
-Add products to cart
-Update cart quantity
-Remove cart items
-Checkout
-Single-product orders
-Multi-product orders
-Insufficient stock validation
-Customer order history
-Backend Validation
-Request validation
-Centralized exception handling
-Resource-not-found handling
-Authentication and authorization checks
-💡 Key Implementation Highlights
-SKU-Based Inventory Handling
+---
 
-When a product with an existing SKU is added, the system does not create another product record.
+## 🧪 Testing
 
-Instead, the existing product's stock is increased.
+The application has been tested using **Postman** and the web frontend.
 
-Existing SKU
-     ↓
-Find product
-     ↓
-Product exists?
-   ↙       ↘
- YES        NO
- ↓           ↓
-Increase     Create
-stock        product
-Transactional Order Processing
+### Authentication
 
-Order and inventory operations are handled transactionally to maintain consistency while processing orders.
+- User registration
+- User login
+- Duplicate username validation
+- Invalid credentials
+- JWT authentication
+- Invalid JWT handling
+- Role-based authorization
 
-DTO-Based API Design
+### Product & Inventory
 
-Request and response DTOs are used to separate API data from database entities and provide controlled request validation.
+- Product creation
+- Product retrieval
+- Product deletion
+- SKU-based inventory handling
+- Duplicate SKU handling
+- Price validation
+- Stock validation
 
-Centralized Exception Handling
+### Cart
 
-Application errors are handled through a global exception handler to return consistent API responses and appropriate HTTP status codes.
+- Add product to cart
+- View cart
+- Update quantity
+- Remove cart item
+- Cart total calculation
+- Checkout
 
-🔮 Future Improvements
+### Orders
 
-Potential future improvements include:
+- Single-product orders
+- Multi-product orders
+- Customer order history
+- Automatic inventory deduction
+- Insufficient-stock validation
 
-Product search and filtering
-Pagination
-Product categories
-Order status management
-Admin dashboard analytics
-Product image upload
-Payment gateway integration
-Automated unit and integration test expansion
-Cloud deployment
-👨‍💻 Author
-Kushal C
+### Error Handling
 
-Java Full Stack Developer
+- Request validation
+- Centralized exception handling
+- Resource-not-found handling
+- Authentication checks
+- Authorization checks
 
+---
+
+## 💡 Key Implementation Highlights
+
+### Layered Architecture
+
+Business logic is separated from controllers and database access using:
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+```
+
+This improves code organization and makes the application easier to maintain and extend.
+
+### DTO-Based API Design
+
+Request and response DTOs are used to separate API data from JPA entities and provide controlled validation.
+
+### JWT Authentication
+
+JWT tokens are generated after successful login and validated for protected API requests.
+
+### Role-Based Authorization
+
+Spring Security restricts administrative operations such as product creation and deletion to users with the `ADMIN` role.
+
+### Transactional Order Processing
+
+Order placement and inventory updates are processed within transactions to maintain consistency.
+
+### Centralized Exception Handling
+
+`GlobalExceptionHandler` provides consistent API responses for validation errors, invalid requests, and missing resources.
+
+---
+
+## 🔮 Future Improvements
+
+Potential future enhancements include:
+
+- Product search and filtering
+- Pagination
+- Product categories
+- Order status management
+- Admin dashboard analytics
+- Product image upload
+- Payment gateway integration
+- Expanded unit and integration testing
+- Cloud deployment
+
+---
+
+## 👨‍💻 Author
+
+### Kushal C
+
+**Java Full Stack Developer**
+
+```text
 Java • Spring Boot • Spring Security • REST APIs
 Spring Data JPA • Hibernate • MySQL
 HTML • CSS • JavaScript
-📌 Project Status
+```
 
-The application is currently functional with authentication, role-based authorization, product and inventory management, cart, checkout, order processing, validation, exception handling, and a responsive frontend.
+---
+
+## 📌 Project Status
+
+**Functional and actively maintained.**
+
+The current implementation includes:
+
+- ✅ User authentication
+- ✅ JWT security
+- ✅ Role-based authorization
+- ✅ Product management
+- ✅ SKU-based inventory management
+- ✅ Shopping cart
+- ✅ Checkout
+- ✅ Order processing
+- ✅ Order history
+- ✅ Validation
+- ✅ Centralized exception handling
+- ✅ Responsive web frontend
