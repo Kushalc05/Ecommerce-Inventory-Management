@@ -6,9 +6,9 @@ The application provides product and inventory management, user authentication, 
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 🔐 Authentication & Authorization
+###  Authentication & Authorization
 
 - User registration and login
 - BCrypt password hashing
@@ -17,7 +17,7 @@ The application provides product and inventory management, user authentication, 
 - ADMIN and CUSTOMER roles
 - Protected REST API endpoints
 
-### 📦 Product & Inventory Management
+###  Product & Inventory Management
 
 - Add products
 - View available products
@@ -29,7 +29,7 @@ The application provides product and inventory management, user authentication, 
 - Stock validation
 - Prevent negative inventory
 
-### 🛒 Shopping Cart
+###  Shopping Cart
 
 - Add products to cart
 - View cart items
@@ -39,7 +39,7 @@ The application provides product and inventory management, user authentication, 
 - Calculate cart total
 - Cart checkout
 
-### 📋 Order Management
+###  Order Management
 
 - Place single-product orders
 - Place multi-product orders
@@ -48,7 +48,7 @@ The application provides product and inventory management, user authentication, 
 - Insufficient-stock validation
 - View customer's order history
 
-### ✅ Validation & Error Handling
+###  Validation & Error Handling
 
 - Jakarta Bean Validation
 - Centralized exception handling
@@ -60,7 +60,7 @@ The application provides product and inventory management, user authentication, 
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Backend
 
@@ -93,7 +93,7 @@ The application provides product and inventory management, user authentication, 
 
 ---
 
-## 🏗️ Project Architecture
+##  Project Architecture
 
 The application follows a layered backend architecture:
 
@@ -136,7 +136,7 @@ The application follows a layered backend architecture:
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```text
 Ecommerce/
@@ -217,7 +217,7 @@ Ecommerce/
 
 ---
 
-## 🔐 Security Architecture
+##  Security Architecture
 
 The application uses **Spring Security and JWT** for authentication and authorization.
 
@@ -268,7 +268,7 @@ Spring Security Authorization
 
 ---
 
-## 📡 REST API Endpoints
+##  REST API Endpoints
 
 ### Authentication
 
@@ -304,7 +304,7 @@ Spring Security Authorization
 
 ---
 
-## 🗄️ Database Design
+##  Database Design
 
 The application uses **MySQL** with JPA/Hibernate for ORM.
 
@@ -339,7 +339,7 @@ Hibernate automatically manages the database schema based on the JPA entity defi
 
 ---
 
-## 📦 SKU-Based Inventory Management
+##  SKU-Based Inventory Management
 
 The application uses **SKU (Stock Keeping Unit)** as the unique identifier for products.
 
@@ -363,7 +363,7 @@ This prevents duplicate product records for the same SKU and keeps inventory con
 
 ---
 
-## 🛒 Cart & Checkout Flow
+##  Cart & Checkout Flow
 
 ```text
 Browse Products
@@ -400,7 +400,7 @@ Order and inventory operations are handled transactionally to help maintain data
 
 ---
 
-## ⚙️ Configuration
+##  Configuration
 
 Sensitive configuration values are kept outside the source code using environment variables.
 
@@ -436,7 +436,7 @@ $env:JWT_SECRET="YOUR_LONG_RANDOM_SECRET"
 
 ---
 
-## ▶️ How to Run
+##  How to Run
 
 ### Prerequisites
 
@@ -493,7 +493,7 @@ The frontend is served from the Spring Boot application.
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 The application has been tested using **Postman** and the web frontend.
 
@@ -544,7 +544,7 @@ The application has been tested using **Postman** and the web frontend.
 
 ---
 
-## 💡 Key Implementation Highlights
+##  Key Implementation Highlights
 
 ### Layered Architecture
 
@@ -582,7 +582,7 @@ Order placement and inventory updates are processed within transactions to maint
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
 Potential future enhancements include:
 
@@ -598,7 +598,7 @@ Potential future enhancements include:
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 ### Kushal C
 
@@ -612,7 +612,7 @@ HTML • CSS • JavaScript
 
 ---
 
-## 📌 Project Status
+##  Project Status
 
 **Functional and actively maintained.**
 
