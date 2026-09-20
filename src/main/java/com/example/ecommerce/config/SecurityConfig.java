@@ -58,13 +58,21 @@ public class SecurityConfig {
                         // ==============================
 
                         .requestMatchers(
-                                "/",
-                                "/index.html",
-                                "/favicon.ico",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**"
-                        ).permitAll()
+        "/",
+        "/index.html",
+        "/login.html",
+        "/register.html",
+        "/catalog.html",
+        "/cart.html",
+        "/orders.html",
+        "/admin-dashboard.html",
+        "/admin-products.html",
+        "/admin-inventory.html",
+        "/favicon.ico",
+        "/css/**",
+        "/js/**",
+        "/images/**"
+).permitAll()
 
 
                         // ==============================

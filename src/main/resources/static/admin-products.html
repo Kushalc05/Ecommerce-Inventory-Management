@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Products | StockFlow</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <a class="brand" href="admin-dashboard.html">
+            <b>S</b> StockFlow
+        </a>
+
+        <nav id="nav"></nav>
+    </header>
+
+
+    <main class="page">
+
+        <small>ADMIN · PRODUCTS</small>
+
+        <h1>Product catalog</h1>
+
+        <p>
+            Add new products or increase stock using an existing SKU.
+        </p>
+
+
+        <section class="admin-layout">
+
+            <!-- Add / Restock Product -->
+            <form id="productForm" class="form-card">
+
+                <h2>Add / Restock</h2>
+
+                <label>
+                    SKU
+                    <input
+                        id="sku"
+                        type="text"
+                        required
+                        placeholder="KB-001"
+                    >
+                </label>
+
+
+                <label>
+                    Product name
+                    <input
+                        id="name"
+                        type="text"
+                        required
+                        placeholder="Wireless Keyboard"
+                    >
+                </label>
+
+
+                <label>
+                    Price (₹)
+                    <input
+                        id="price"
+                        type="number"
+                        min=".01"
+                        step=".01"
+                        required
+                        placeholder="1499"
+                    >
+                </label>
+
+
+                <label>
+                    Stock
+                    <input
+                        id="stock"
+                        type="number"
+                        min="0"
+                        required
+                        placeholder="10"
+                    >
+                </label>
+
+
+                <label>
+                    Product Image
+                    <input
+                        id="imageUrl"
+                        type="text"
+                        placeholder="images/products/keyboard.jpg"
+                    >
+                </label>
+
+                <small>
+                    Example:
+                    images/products/keyboard.jpg
+                </small>
+
+
+                <button
+                    type="submit"
+                    class="btn primary full">
+                    Save product
+                </button>
+
+            </form>
+
+
+            <!-- Product Table -->
+            <section class="table-card">
+
+                <h2>Products</h2>
+
+                <div class="scroll">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="products">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        StockFlow · Product Management
+    </footer>
+
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+
+    <script>
+        requireAuth('ADMIN');
+    </script>
+
+</body>
+
+</html>

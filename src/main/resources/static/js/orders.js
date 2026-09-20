@@ -1,0 +1,2 @@
+async function loadOrders(){const b=document.getElementById("orders");try{const o=await api("/orders/my");b.innerHTML=o?.length?o.map(x=>`<tr><td><b>#${x.orderId}</b></td><td>${x.userId}</td><td><b>${money(x.totalAmount)}</b></td></tr>`).join(""):'<tr><td colspan="3"><div class="empty">No orders yet.</div></td></tr>'}catch(e){b.innerHTML=`<tr><td colspan="3">${esc(e.message)}</td></tr>`}}
+document.addEventListener("DOMContentLoaded",loadOrders)

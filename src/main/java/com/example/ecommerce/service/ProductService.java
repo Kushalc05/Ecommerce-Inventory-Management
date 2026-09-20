@@ -1,98 +1,100 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.ProductRequestDTO;
-import com.example.ecommerce.dto.ProductResponseDTO;
-import com.example.ecommerce.exception.ResourceNotFoundException;
-import com.example.ecommerce.model.Product;
-import com.example.ecommerce.repository.ProductRepository;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.ecommerce.model.Product;
+import com.example.ecommerce.repository.ProductRepository;
 
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepo;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepo) {
-        this.productRepo = productRepo;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
-    // Add product / increase existing SKU stock
-    public ProductResponseDTO addProduct(
-            ProductRequestDTO request) {
+    public Product addProduct(Product product) {
 
-        String sku =
-                request.getSku()
-                        .trim()
-                        .toUpperCase();
-
-        Optional<Product> existingProduct =
-                productRepo.findBySkuIgnoreCase(sku);
-
-        if (existingProduct.isPresent()) {
-
-            Product existing =
-                    existingProduct.get();
-
-            existing.setStock(
-                    existing.getStock()
-                            + request.getStock()
-            );
-
-            Product saved =
-                    productRepo.save(existing);
-
-            return convertToResponse(saved);
+        if (product.getSku() == null ||
+                product.getSku().trim().isEmpty()) {
+            throw new IllegalArgumentException("SKU is required");
         }
 
-        Product product = new Product();
+        Product existingProduct =
+                productRepository
+                        .findBySkuIgnoreCase(product.getSku().trim())
+                        .orElse(null);
 
-        product.setSku(sku);
-        product.setName(request.getName().trim());
-        product.setPrice(request.getPrice());
-        product.setStock(request.getStock());
+        // If SKU already exists, increase stock
+        if (existingProduct != null) {
 
-        Product saved =
-                productRepo.save(product);
+            existingProduct.setStock(
+                    existingProduct.getStock() + product.getStock()
+            );
 
-        return convertToResponse(saved);
+            // Update name if provided
+            if (product.getName() != null &&
+                    !product.getName().trim().isEmpty()) {
+
+                existingProduct.setName(
+                        product.getName().trim()
+                );
+            }
+
+            // Update price if valid
+            if (product.getPrice() > 0) {
+                existingProduct.setPrice(
+                        product.getPrice()
+                );
+            }
+
+            // Update image if provided
+            if (product.getImageUrl() != null &&
+                    !product.getImageUrl().trim().isEmpty()) {
+
+                existingProduct.setImageUrl(
+                        product.getImageUrl().trim()
+                );
+            }
+
+            return productRepository.save(existingProduct);
+        }
+
+        // New product
+        product.setSku(
+                product.getSku().trim()
+        );
+
+        if (product.getName() != null) {
+            product.setName(
+                    product.getName().trim()
+            );
+        }
+
+        if (product.getImageUrl() != null) {
+            product.setImageUrl(
+                    product.getImageUrl().trim()
+            );
+        }
+
+        return productRepository.save(product);
     }
 
-    // Get all products
-    public List<ProductResponseDTO> getProducts() {
-
-        return productRepo.findAll()
-                .stream()
-                .map(this::convertToResponse)
-                .toList();
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 
-    // Delete product
     public void deleteProduct(Long id) {
 
-        Product product =
-                productRepo.findById(id)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Product not found: " + id
-                                ));
+        if (!productRepository.existsById(id)) {
+            throw new IllegalArgumentException(
+                    "Product not found: " + id
+            );
+        }
 
-        productRepo.delete(product);
-    }
-
-    // Convert Entity → Response DTO
-    private ProductResponseDTO convertToResponse(
-            Product product) {
-
-        return new ProductResponseDTO(
-                product.getId(),
-                product.getSku(),
-                product.getName(),
-                product.getPrice(),
-                product.getStock()
-        );
+        productRepository.deleteById(id);
     }
 }

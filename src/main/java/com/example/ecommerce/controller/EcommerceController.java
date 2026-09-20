@@ -1,19 +1,25 @@
 package com.example.ecommerce.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.ecommerce.dto.MultiProductOrderDTO;
 import com.example.ecommerce.dto.OrderRequestDTO;
 import com.example.ecommerce.dto.OrderResponseDTO;
-import com.example.ecommerce.dto.ProductRequestDTO;
-import com.example.ecommerce.dto.ProductResponseDTO;
 import com.example.ecommerce.dto.OrderSummaryDTO;
+import com.example.ecommerce.model.Product;
 import com.example.ecommerce.service.OrderService;
 import com.example.ecommerce.service.ProductService;
 
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -31,38 +37,23 @@ public class EcommerceController {
         this.orderService = orderService;
     }
 
-    // Add product
-    @PostMapping("/product")
-    public ProductResponseDTO addProduct(
-            @RequestBody @Valid ProductRequestDTO productRequest) {
+    // =========================
+    // PRODUCT APIs
+    // =========================
 
-        return productService.addProduct(productRequest);
+    @PostMapping("/product")
+    public Product addProduct(
+            @RequestBody @Valid Product product) {
+
+        return productService.addProduct(product);
     }
 
-    // Get all products
     @GetMapping("/products")
-    public List<ProductResponseDTO> getProducts() {
+    public List<Product> getProducts() {
 
         return productService.getProducts();
     }
 
-    // Place single-product order
-    @PostMapping("/order")
-    public OrderResponseDTO placeOrder(
-            @RequestBody @Valid OrderRequestDTO request) {
-
-        return orderService.placeOrder(request);
-    }
-
-    // Place multi-product order
-    @PostMapping("/orders/multi")
-    public String placeMultiProductOrder(
-            @RequestBody @Valid MultiProductOrderDTO orderDTO) {
-
-        return orderService.placeMultiProductOrder(orderDTO);
-    }
-
-    // Delete product
     @DeleteMapping("/product/{id}")
     public String deleteProduct(
             @PathVariable Long id) {
@@ -72,9 +63,26 @@ public class EcommerceController {
         return "Product deleted successfully";
     }
 
-    // Get current user's orders
+    // =========================
+    // ORDER APIs
+    // =========================
+
+    @PostMapping("/order")
+    public OrderResponseDTO placeOrder(
+            @RequestBody @Valid OrderRequestDTO request) {
+
+        return orderService.placeOrder(request);
+    }
+
+    @PostMapping("/orders/multi")
+    public String placeMultiProductOrder(
+            @RequestBody @Valid MultiProductOrderDTO orderDTO) {
+
+        return orderService.placeMultiProductOrder(orderDTO);
+    }
+
     @GetMapping("/orders/my")
-public List<OrderSummaryDTO> getMyOrders() {
+    public List<OrderSummaryDTO> getMyOrders() {
 
         return orderService.getMyOrders();
     }

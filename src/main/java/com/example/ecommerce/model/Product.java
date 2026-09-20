@@ -25,6 +25,11 @@ public class Product {
     @Min(value = 0, message = "Stock cannot be negative")
     private int stock;
 
+    private String imageUrl;
+
+    public Product() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,5 +68,13 @@ public class Product {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
