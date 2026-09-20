@@ -1,4 +1,4 @@
-# E-Commerce & Inventory Management System
+# StockFlow-E-Commerce-Inventory-Management System
 
 A full-stack e-commerce and inventory management application built using **Java and Spring Boot**.
 
