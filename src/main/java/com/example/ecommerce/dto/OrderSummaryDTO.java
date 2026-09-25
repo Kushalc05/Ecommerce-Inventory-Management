@@ -2,44 +2,29 @@ package com.example.ecommerce.dto;
 
 public class OrderSummaryDTO {
 
-    private Long orderId;
-    private Long userId;
-    private double totalAmount;
-
-    public OrderSummaryDTO() {
-    }
+    private String productName;
+    private double price;
+    private int quantity;
 
     public OrderSummaryDTO(
-            Long orderId,
-            Long userId,
-            double totalAmount) {
+            String productName,
+            double price,
+            int quantity) {
 
-        this.orderId = orderId;
-        this.userId = userId;
-        this.totalAmount = totalAmount;
+        this.productName = productName;
+        this.price = price;
+        this.quantity = quantity;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public double getPrice() {
+        return price;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public int getQuantity() {
+        return quantity;
     }
 }
